@@ -5,6 +5,6 @@ export interface Contact {
   address: string,
   city: string,
   country: string,
-  email: string,
-  number: string,
+  email: string[],
+  number: string[],
 }

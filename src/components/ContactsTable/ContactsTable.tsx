@@ -58,7 +58,7 @@ export const ContactsTable: FC = () => {
                     key={i}
                     className='has-text-weight-normal'
                   >
-                    {cell}
+                    {typeof cell !== 'object' ? cell : cell.join('\n')}
                   </th>
                 ))}
 

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { contactApi } from '../../api/service/contacts-service';
 import { Contact } from '../../types/Contact';
@@ -11,18 +11,37 @@ type Props = {
   contact?: Contact
 };
 
-const formInputs: string[] = [
-  'Name',
-  'Last Name',
-  'Address',
-  'City',
-  'Country',
-  'Email',
-  'Number',
-];
+const formInputs = {
+  id: 'Id',
+  name: 'Name',
+  lastName: 'Last Name',
+  address: 'Address',
+  city: 'City',
+  country: 'Country',
+  email: 'Email',
+  number: 'Number',
+};
 
 export const CreateEditContact: FC<Props> = ({ contact }) => {
   const navigator = useNavigate();
+
+  const [formContact, setContact] = useState(contact ? contact : {
+    id: 0,
+    name: '',
+    lastName: '',
+    address: '',
+    city: '',
+    country: '',
+    email: [],
+    number: [],
+  });
+
+  const setNewField = (field: any, value: any) => {
+    console.log(formContact[field as keyof Contact], `value: ${value}`);
+    setContact(currContact => Object.assign(currContact, { field: value }));
+
+    console.log(formContact);
+  };
 
   return (
     <div
@@ -35,12 +54,17 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
       <h2 className='title is-3'>Register new contact</h2>
 
       <div className="form is-flex is-flex-direction-column">
-        {formInputs.map(input => {
+        {Object.keys(formContact)
+          .filter(key => key !== 'id')
+          .map(input => {
 
           return (
             <FormField 
               key={input}
               name={input}
+              label={formInputs[input as keyof Contact]}
+              onChange={setNewField}
+              value={formContact[input as keyof Contact]}
             />
           );
         })}
