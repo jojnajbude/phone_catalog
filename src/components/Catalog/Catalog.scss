@@ -1,0 +1,17 @@
+.catalog {
+  display: flex;
+  justify-content: center;
+
+  &__container {
+    width: 1024px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    justify-content: center;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+}

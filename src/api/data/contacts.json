@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Andriy",
+    "lastName": "Hladkevych",
+    "address": "center",
+    "city": "Kyiv",
+    "country": "Ukraine",
+    "email": "andriyglad@gmail.com",
+    "number": "+380992510396"
+  },
+  {
+    "id": 2,
+    "name": "Lesya",
+    "lastName": "Netrybskaya",
+    "address": "center",
+    "city": "Lviv",
+    "country": "Ukraine",
+    "email": "lesya@gmail.com",
+    "number": "+38011111111"
+  },
+  {
+    "id": 3,
+    "name": "Test",
+    "lastName": "Testovych",
+    "address": "center",
+    "city": "France",
+    "country": "France",
+    "email": "test@gmail.com",
+    "number": "+9132456874"
+  }
+]
