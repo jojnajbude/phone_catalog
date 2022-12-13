@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Contact } from "../../types/Contact";
 
 type Props = {
   name: string,
@@ -9,7 +10,7 @@ type Props = {
 
 export const FormField: FC<Props> = ({
   name,
-  label,
+  label = name,
   value,
   onChange,
 }) => {
@@ -28,8 +29,11 @@ export const FormField: FC<Props> = ({
             id={name}
             type='text'
             placeholder={`Enter${isThe ? ' the' : ''} ${label}`}
-            onChange={() => onChange(name, value)}
             value={value}
+            onChange={(event) => {
+              console.log(event.currentTarget.value, value);
+              onChange(name, event.currentTarget.value);
+            }}
           />
         )
       : !value.length
@@ -39,8 +43,8 @@ export const FormField: FC<Props> = ({
               id={name}
               type='text'
               placeholder={`Enter${isThe ? ' the' : ''} ${name}`}
-              onChange={() => onChange(name, value)}
-              value={value}
+              // onChange={() => {}}
+              // value={value}
             />
           )
           : value.map(() => <></>)

@@ -37,8 +37,10 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
   });
 
   const setNewField = (field: any, value: any) => {
-    console.log(formContact[field as keyof Contact], `value: ${value}`);
-    setContact(currContact => Object.assign(currContact, { field: value }));
+
+    setContact(currContact => Object
+      .assign({}, currContact, { [field]: value })
+    );
 
     console.log(formContact);
   };
