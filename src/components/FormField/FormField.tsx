@@ -1,4 +1,6 @@
-import { FC } from "react";
+import classNames from "classnames";
+import { FC, useState } from "react";
+import { isatty } from "tty";
 import { Contact } from "../../types/Contact";
 
 type Props = {
@@ -17,13 +19,17 @@ export const FormField: FC<Props> = ({
   const isArray = Array.isArray(value);
   const isThe = !isArray && ['Name', 'Email', 'Number'].includes(name);
 
+  const [count, setCount] = useState(
+    isArray
+      ? (value.length ? value.length : 1)
+      : -1);
+
   return (
-    <div key={name}>
-      <label htmlFor={name} className='label'>
+    <div key={name} className="mb-2">
+      <label htmlFor={name} className='label mb-1'>
         {label}
       </label>
-      {!isArray
-        ? (
+      {!isArray && (
           <input
             className='input'
             id={name}
@@ -31,24 +37,58 @@ export const FormField: FC<Props> = ({
             placeholder={`Enter${isThe ? ' the' : ''} ${label}`}
             value={value}
             onChange={(event) => {
-              console.log(event.currentTarget.value, value);
               onChange(name, event.currentTarget.value);
             }}
           />
         )
-      : !value.length
-          ? (
-            <input
-              className='input'
-              id={name}
-              type='text'
-              placeholder={`Enter${isThe ? ' the' : ''} ${name}`}
-              // onChange={() => {}}
-              // value={value}
-            />
-          )
-          : value.map(() => <></>)
       }
+
+      {isArray && (
+        <div className={classNames(
+          'is-flex',
+          {
+            'is-flex-direction-column': count > 1,
+          }
+        )}>
+          <div className={classNames(
+            'is-flex-grow-2',
+            {
+              'mr-2': count === 1,
+            },
+          )}>
+            {Array(count).fill(null).map((_, i) => (
+              <input
+                key={i * Math.random()}
+                className='input mb-2'
+                id={name}
+                type='text'
+                placeholder={`Enter${isThe ? ' the' : ''} ${label}`}
+                value={value[i]}
+                onChange={(event) => {
+                  onChange(name, event.currentTarget.value);
+                }}
+              />
+            ))}
+          </div>
+
+          <button
+            className={classNames(
+              'button is-info',
+              {
+                'is-align-self-flex-end': count > 1
+              }
+            )}
+            style={{ width: 'min-content'}}
+            onClick={() => {
+              setCount(curr => curr + 1);
+
+              console.log(count);
+            }}
+          >
+            Add
+          </button>
+        </div>
+      )}
     </div>
   );
 }

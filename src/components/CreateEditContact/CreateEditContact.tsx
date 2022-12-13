@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { contactApi } from '../../api/service/contacts-service';
+import { contactApi } from '../../api/service/contactApi';
 import { Contact } from '../../types/Contact';
 import { FormField } from '../FormField';
 
@@ -37,19 +37,18 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
   });
 
   const setNewField = (field: any, value: any) => {
-
-    setContact(currContact => Object
-      .assign({}, currContact, { [field]: value })
+    setContact(currContact => {
+      return Object
+      .assign({}, currContact, { [field]: value });
+    }
     );
-
-    console.log(formContact);
   };
 
   return (
     <div
       className={classNames(
         'create-edit-page container',
-        'is-max-desktop',
+        'is-max-desktop mb-5',
         'is-flex is-justify-content-start is-flex-direction-column'
       )}
     >
@@ -78,7 +77,9 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
           onClick={(event) => {
             event.preventDefault();
 
-            // contactApi.addContact();
+            console.log(formContact);
+
+            contactApi.addContact(formContact);
             
             navigator('/');
           }}

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { contactApi } from '../../api/service/contacts-service';
+import { contactApi } from '../../api/service/contactApi';
 import { Contact } from '../../types/Contact';
 
 import './ContactsTable.scss';
@@ -24,7 +24,7 @@ export const ContactsTable: FC = () => {
   }, []);
 
   return (
-    contacts
+    contacts?.length
     ? (
       <table className='table is-striped is-bordered'>
         <thead>
@@ -69,7 +69,10 @@ export const ContactsTable: FC = () => {
                 </th>
 
                 <th className='has-text-centered'>
-                  <button className='button is-danger'>
+                  <button
+                    className='button is-danger'
+                    onClick={() => setContacts(contactApi.deleteContact(contact.id))}
+                  >
                     Delete
                   </button>
                 </th>
