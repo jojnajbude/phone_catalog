@@ -1,26 +1,26 @@
 import { FC, useEffect, useState } from 'react';
-import { getContacts } from '../../api/contacts-service/getContacts';
+import { contactApi } from '../../api/service/contacts-service';
 import { Contact } from '../../types/Contact';
 
 import './ContactsTable.scss';
 
-const tableHeaders: string[] = [
-  'Name',
-  'Last Name',
-  'Address',
-  'City',
-  'Country',
-  'Email',
-  'Number',
-  'Edit',
-  'Delete',
-]
-
 export const ContactsTable: FC = () => {
   const [contacts, setContacts] = useState<Contact[]>();
 
+  const tableHeaders: string[] = [
+    'Name',
+    'Last Name',
+    'Address',
+    'City',
+    'Country',
+    'Email',
+    'Number',
+    'Edit',
+    'Delete',
+  ];
+
   useEffect(() => {
-    setContacts(getContacts());
+    setContacts(contactApi.getContacts());
   }, []);
 
   return (
@@ -38,14 +38,44 @@ export const ContactsTable: FC = () => {
         </thead>
 
         <tbody>
-          {contacts.map(contact => (
-            <tr
-              key={contact.id}
-              className='has-text-centered'
-            >
-              
-            </tr>
-          ))}
+          {contacts.map(contact => {
+            const contactData: any[] = Object.keys(contact)
+              .reduce((data: any[], item) => {
+                if (item !== 'id') {
+                  data.push(contact[item as keyof Contact]);
+                }
+
+                return data;
+            }, []);
+
+            return (
+              <tr
+                key={contact.id}
+                className='has-text-centered'
+              >
+                {contactData.map((cell, i) => (
+                  <th
+                    key={i}
+                    className='has-text-weight-normal'
+                  >
+                    {cell}
+                  </th>
+                ))}
+
+                <th className='has-text-centered'>
+                  <button className='button is-success'>
+                    Edit
+                  </button>
+                </th>
+
+                <th className='has-text-centered'>
+                  <button className='button is-danger'>
+                    Delete
+                  </button>
+                </th>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     )
