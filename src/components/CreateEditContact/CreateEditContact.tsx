@@ -11,7 +11,7 @@ type Props = {};
 export const CreateEditContact: FC<Props> = () => {
   const navigator = useNavigate();
   const { contactId } = useParams();
-  const requiredField = ['name', 'lastName', 'email', 'number'];
+  const requiredField = useMemo(() => ['name', 'lastName', 'email', 'number'], []);
 
   const contactToEdit = contactId ? contactApi.getContactById(+contactId) : null;
 
@@ -30,24 +30,6 @@ export const CreateEditContact: FC<Props> = () => {
   );
 
   const [canSubmit, setCanSubmit] = useState(false);
-
-  const checkFields = () => {
-    // for (const field in contact) {
-    //   switch (field) {
-    //     case 'name':
-    //     case 'lastName':
-    //     case 'city':
-    //     case 'Country':
-    //       if (!/[a-zA-Z]+/.test(field)) {
-    //         setErrorFields(curr => [...curr, field]);
-    //       }
-    //   }
-    // }
-
-    // console.log(errorFields);
-
-    console.log(Object.values(contact).every(value => value !== ''));
-  };
 
   const setNewField = (field: any, value: any) => {
     setContact(currContact => {
@@ -85,7 +67,7 @@ export const CreateEditContact: FC<Props> = () => {
       .every(item => item);
 
     setCanSubmit(allEntered);
-  }, [contact, canSubmit]);
+  }, [contact, canSubmit, requiredField]);
 
   return (
     <div
