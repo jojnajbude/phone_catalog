@@ -1,3 +1,6 @@
+import { Email } from "./Email";
+import { Number } from "./Number";
+
 export interface Contact {
   id: number
   name: string,
@@ -5,6 +8,6 @@ export interface Contact {
   address: string,
   city: string,
   country: string,
-  email: string[],
-  number: string[],
+  email: Email[],
+  number: Number[],
 }

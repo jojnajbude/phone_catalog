@@ -1,6 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { contactApi } from '../../api/service/contactApi';
 import { Contact } from '../../types/Contact';
+import { Email } from '../../types/Email';
+import { Number } from '../../types/Number';
 
 import './ContactsTable.scss';
 
@@ -58,7 +60,10 @@ export const ContactsTable: FC = () => {
                     key={i}
                     className='has-text-weight-normal'
                   >
-                    {typeof cell !== 'object' ? cell : cell.join('\n')}
+                    {typeof cell !== 'object'
+                      ? cell
+                      : cell.map((item: Email | Number) => <p>{item.value}</p>)
+                    }
                   </th>
                 ))}
 

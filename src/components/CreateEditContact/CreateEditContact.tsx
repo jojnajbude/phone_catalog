@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { contactApi } from '../../api/service/contactApi';
 import { Contact } from '../../types/Contact';
 import { FormField } from '../FormField';
+import { FormFieldArray } from '../FormFieldArray';
 
 import './CreateEditContact.scss';
 
@@ -32,8 +33,8 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
     address: '',
     city: '',
     country: '',
-    email: [],
-    number: [],
+    email: [{id: 1, value: ''}],
+    number: [{id: 1, value: ''}],
   });
 
   const setNewField = (field: any, value: any) => {
@@ -42,6 +43,26 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
       .assign({}, currContact, { [field]: value });
     }
     );
+
+    console.log(formContact);
+  };
+
+  const setNewFieldArray = (
+    field: string,
+    id: number,
+    newValue: any
+  ) => {
+    setContact(currContact => {
+      const newData = currContact[field as 'email' | 'number']
+        .find(item => item.id === id);
+      if (newData) {
+        newData.value = newValue;
+      }
+
+      console.log(newData);
+
+      return Object.assign({}, currContact, {});
+    });
   };
 
   return (
@@ -55,21 +76,55 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
       <h2 className='title is-3'>Register new contact</h2>
 
       <div className="form is-flex is-flex-direction-column">
-        {Object.keys(formContact)
-          .filter(key => key !== 'id')
-          .map(input => {
+        <FormField
+          name={'name'}
+          label={'Name'}
+          onChange={setNewField}
+          value={formContact.name}
+        />
 
-          return (
-            <FormField 
-              key={input}
-              name={input}
-              label={formInputs[input as keyof Contact]}
-              onChange={setNewField}
-              value={formContact[input as keyof Contact]}
-            />
-          );
-        })}
+        <FormField
+          name={'lastName'}
+          label={'Last Name'}
+          onChange={setNewField}
+          value={formContact.lastName}
+        />
 
+        <FormField
+          name={'address'}
+          label={'Address'}
+          onChange={setNewField}
+          value={formContact.address}
+        />
+
+        <FormField
+          name={'city'}
+          label={'City'}
+          onChange={setNewField}
+          value={formContact.city}
+        />
+
+        <FormField
+          name={'country'}
+          label={'Country'}
+          onChange={setNewField}
+          value={formContact.country}
+        />
+
+        <FormFieldArray
+          name={'email'}
+          label={'Email'}
+          onChange={setNewFieldArray}
+          value={formContact.email}
+          type={'email'}
+        />
+
+        <FormFieldArray
+          name={'number'}
+          label={'Number'}
+          onChange={setNewFieldArray}
+          value={formContact.number}
+        />
       
         <button
           className='button is-info mt-3'
@@ -83,7 +138,9 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
             
             navigator('/');
           }}
-        > Save </button>
+        > 
+          Save 
+        </button>
       </div>
     </div>
   );

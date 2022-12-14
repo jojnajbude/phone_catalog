@@ -6,8 +6,22 @@
     "address": "center",
     "city": "Kyiv",
     "country": "Ukraine",
-    "email": ["andriyglad@gmail.com", "androglad@gmail.com"],
-    "number": ["+380992510396"]
+    "email": [
+      {
+      "id": 1,
+      "value": "andriyglad@gmail.com"
+      },
+      {
+        "id": 2,
+        "value": "androglad@gmail.com"
+      } 
+    ],
+    "number": [
+      {
+        "id": 1,
+        "value": "+380992510396"
+      }
+    ]
   },
   {
     "id": 2,
@@ -16,8 +30,18 @@
     "address": "center",
     "city": "Lviv",
     "country": "Ukraine",
-    "email": ["lesya@gmail.com"],
-    "number": ["+38011111111"]
+    "email": [
+      {
+      "id": 1,
+      "value": "lesya@gmail.com"
+      }
+    ],
+    "number": [
+      {
+        "id": 1,
+        "value": "+38011111112"
+      }
+    ]
   },
   {
     "id": 3,
@@ -26,7 +50,17 @@
     "address": "center",
     "city": "France",
     "country": "France",
-    "email": ["test@gmail.com"],
-    "number": ["+9132456874"]
+    "email": [
+      {
+      "id": 1,
+      "value": "test@gmail.com"
+      }
+    ],
+    "number": [
+      {
+        "id": 1,
+        "value": "+9784651326"
+      }
+    ]
   }
 ]
