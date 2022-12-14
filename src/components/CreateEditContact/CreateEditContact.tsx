@@ -10,26 +10,13 @@ import './CreateEditContact.scss';
 
 type Props = {};
 
-const formInputs = {
-  id: 'Id',
-  name: 'Name',
-  lastName: 'Last Name',
-  address: 'Address',
-  city: 'City',
-  country: 'Country',
-  email: 'Email',
-  number: 'Number',
-};
-
 export const CreateEditContact: FC<Props> = () => {
   const navigator = useNavigate();
   const { contactId } = useParams();
 
   const contactToEdit = contactId ? contactApi.getContactById(+contactId) : null;
 
-  console.log(contactToEdit);
-
-  const [contact, setContact] = useState(contactToEdit
+  const [contact, setContact] = useState<Contact>(contactToEdit
     ? contactToEdit
     : {
       id: 0,
@@ -49,8 +36,6 @@ export const CreateEditContact: FC<Props> = () => {
       .assign({}, currContact, { [field]: value });
     }
     );
-
-    console.log(contact);
   };
 
   const setNewFieldArray = (
@@ -64,8 +49,6 @@ export const CreateEditContact: FC<Props> = () => {
       if (newData) {
         newData.value = newValue;
       }
-
-      console.log(newData, newValue);
 
       return Object.assign({}, currContact, {});
     });
@@ -122,6 +105,7 @@ export const CreateEditContact: FC<Props> = () => {
           label={'Email'}
           onChange={setNewFieldArray}
           value={contact.email}
+          toRemove={setNewField}
           type={'email'}
         />
 
@@ -129,6 +113,7 @@ export const CreateEditContact: FC<Props> = () => {
           name={'number'}
           label={'Number'}
           onChange={setNewFieldArray}
+          toRemove={setNewField}
           value={contact.number}
         />
       

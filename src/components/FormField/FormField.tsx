@@ -1,7 +1,5 @@
 import classNames from "classnames";
 import { FC, useState } from "react";
-import { isatty } from "tty";
-import { Contact } from "../../types/Contact";
 
 type Props = {
   name: string,

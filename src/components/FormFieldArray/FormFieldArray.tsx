@@ -8,6 +8,7 @@ type Props = {
   label?: string,
   value: Email[] | Number[],
   onChange: (field: string, id: number, newValue: any) => void,
+  toRemove: (field: any, value: any) => void,
   type?: string,
 }
 
@@ -16,6 +17,7 @@ export const FormFieldArray: FC<Props> = ({
   label = name,
   value,
   onChange,
+  toRemove,
   type = 'text',
 }) => {
   const isThe = ['Name', 'Email', 'Number'].includes(name);
@@ -30,9 +32,13 @@ export const FormFieldArray: FC<Props> = ({
       value: '',
     });
 
-    console.log(value);
+    setCount(value.length);
+  };
 
-    setCount(curr => curr + 1);
+  const removeField = (id: number) => {
+    toRemove(name, value.filter(item => item.id !== id));
+
+    setCount(curr => curr - 1);
   };
   
   return (
@@ -53,20 +59,33 @@ export const FormFieldArray: FC<Props> = ({
             'mr-2': value.length === 1,
           },
         )}>
-          {value.map(({ id }, i) => (
-            <input
+          {value.map(({ id, value }, i) => (
+            <div
               key={id}
-              className='input mb-2'
-              type={type}
-              placeholder={`Enter${isThe ? ' the' : ''} ${label}`}
-              value={value[i].value}
-              onChange={(event) => {
-                console.log('here');
-                onChange(name, value[i].id ,event.target.value);
-                setCount(curr => curr);
-              }}
-            />
+              className="is-flex is-align-items-center mb-2"
+            >
+              <input
+                className='input mr-2'
+                type={type}
+                placeholder={`Enter${isThe ? ' the' : ''} ${label}`}
+                value={value}
+                onChange={(event) => {
+                  console.log('here');
+                  onChange(name, id ,event.target.value);
+                  setCount(curr => curr);
+                }}
+              />
+
+              {count > 1 && (
+                <button
+                  className="delete"
+                  onClick={() => removeField(id)}
+                />
+              )}
+            </div>
           ))}
+
+          
         </div>
 
         <button
