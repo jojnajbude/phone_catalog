@@ -64,7 +64,7 @@ export const ContactsTable: FC = () => {
                     className='has-text-weight-normal'
                   >
                     {typeof cell !== 'object'
-                      ? cell
+                      ? (cell ? cell : '-')
                       : cell
                         .map((item: Email | Number) => (
                           <p key={item.id}>{item.value}</p>

@@ -24,6 +24,7 @@ const getContactById = (id: number) => {
 
 const addContact = (contactFromForm: ContactFromForm) => {
   const newId = data.length + 1;
+
   const newContact = Object.assign({ id: newId }, contactFromForm);
 
   data.push(newContact);

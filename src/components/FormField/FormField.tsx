@@ -6,6 +6,7 @@ type Props = {
   label?: string,
   value: any,
   onChange: (field: any, value: any) => void,
+  requiere?: boolean,
 }
 
 export const FormField: FC<Props> = ({
@@ -13,23 +14,37 @@ export const FormField: FC<Props> = ({
   label = name,
   value,
   onChange,
+  requiere = false,
 }) => {
   const isArray = Array.isArray(value);
   const isThe = !isArray && ['Name', 'Email', 'Number'].includes(name);
 
-  const [count, setCount] = useState(
-    isArray
-      ? (value.length ? value.length : 1)
-      : -1);
+  const [count, setCount] = useState(isArray
+    ? (value.length ? value.length : 1)
+    : -1
+  );
+
+  const [touched, setToched] = useState(false);
+
+  const hasError = touched && !value && requiere;
 
   return (
     <div key={name} className="mb-2">
       <label htmlFor={name} className='label mb-1'>
-        {label}
+        {label} {hasError && (
+          <span className="has-text-danger is-size-7">
+            Invalid value
+          </span>
+        )}
       </label>
       {!isArray && (
           <input
-            className='input'
+            className={classNames(
+              'input',
+              {
+                'is-danger': hasError,
+              },
+            )}
             id={name}
             type='text'
             placeholder={`Enter${isThe ? ' the' : ''} ${label}`}
@@ -37,6 +52,8 @@ export const FormField: FC<Props> = ({
             onChange={(event) => {
               onChange(name, event.currentTarget.value);
             }}
+            onBlur={() => setToched(true)}
+            required={requiere}
           />
         )
       }

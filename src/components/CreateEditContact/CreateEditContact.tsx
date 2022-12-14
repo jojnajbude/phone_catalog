@@ -1,18 +1,17 @@
 import classNames from 'classnames';
-import { FC, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { contactApi } from '../../api/service/contactApi';
 import { Contact } from '../../types/Contact';
 import { FormField } from '../FormField';
 import { FormFieldArray } from '../FormFieldArray';
 
-import './CreateEditContact.scss';
-
 type Props = {};
 
 export const CreateEditContact: FC<Props> = () => {
   const navigator = useNavigate();
   const { contactId } = useParams();
+  const requiredField = ['name', 'lastName', 'email', 'number'];
 
   const contactToEdit = contactId ? contactApi.getContactById(+contactId) : null;
 
@@ -29,6 +28,26 @@ export const CreateEditContact: FC<Props> = () => {
       number: [{id: 1, value: ''}],
     }
   );
+
+  const [canSubmit, setCanSubmit] = useState(false);
+
+  const checkFields = () => {
+    // for (const field in contact) {
+    //   switch (field) {
+    //     case 'name':
+    //     case 'lastName':
+    //     case 'city':
+    //     case 'Country':
+    //       if (!/[a-zA-Z]+/.test(field)) {
+    //         setErrorFields(curr => [...curr, field]);
+    //       }
+    //   }
+    // }
+
+    // console.log(errorFields);
+
+    console.log(Object.values(contact).every(value => value !== ''));
+  };
 
   const setNewField = (field: any, value: any) => {
     setContact(currContact => {
@@ -54,6 +73,20 @@ export const CreateEditContact: FC<Props> = () => {
     });
   };
 
+
+  useEffect(() => {
+    const allEntered = requiredField.map(item => {
+      if (item === 'email' || item === 'number') {
+        return contact[item].every(itemValue => Boolean(itemValue.value));
+      }
+
+      return Boolean(contact[item as keyof Contact]);
+    })
+      .every(item => item);
+
+    setCanSubmit(allEntered);
+  }, [contact, canSubmit]);
+
   return (
     <div
       className={classNames(
@@ -70,6 +103,7 @@ export const CreateEditContact: FC<Props> = () => {
           label={'Name'}
           onChange={setNewField}
           value={contact.name}
+          requiere
         />
 
         <FormField
@@ -77,6 +111,7 @@ export const CreateEditContact: FC<Props> = () => {
           label={'Last Name'}
           onChange={setNewField}
           value={contact.lastName}
+          requiere
         />
 
         <FormField
@@ -107,6 +142,7 @@ export const CreateEditContact: FC<Props> = () => {
           value={contact.email}
           toRemove={setNewField}
           type={'email'}
+          require
         />
 
         <FormFieldArray
@@ -115,6 +151,7 @@ export const CreateEditContact: FC<Props> = () => {
           onChange={setNewFieldArray}
           toRemove={setNewField}
           value={contact.number}
+          require
         />
       
         <div className="mt-3">
@@ -129,13 +166,11 @@ export const CreateEditContact: FC<Props> = () => {
           </button>
 
           <button
-            className='button is-info px-5'
+            className='button px-5 is-info'
             style={{ width: 'min-content'}}
             type='submit'
             onClick={(event) => {
               event.preventDefault();
-
-              console.log(contact);
 
               if (contactToEdit) {
                 contactApi.editContact(contact);
@@ -145,6 +180,7 @@ export const CreateEditContact: FC<Props> = () => {
               
               navigator('/');
             }}
+            disabled={!canSubmit}
           > 
             Save 
           </button>

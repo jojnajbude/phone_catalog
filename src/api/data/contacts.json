@@ -1,52 +1,56 @@
 [
   {
     "id": 1,
-    "name": "Andriy",
-    "lastName": "Hladkevych",
-    "address": "center",
-    "city": "Kyiv",
-    "country": "Ukraine",
+    "name": "Mykola",
+    "lastName": "Mykolovych",
+    "address": "lorem",
+    "city": "Lorem",
+    "country": "Lorem ipsum",
     "email": [
       {
       "id": 1,
-      "value": "andriyglad@gmail.com"
+      "value": "lorem@gmail.com"
       },
       {
         "id": 2,
-        "value": "androglad@gmail.com"
+        "value": "ipsum@gmail.com"
       } 
     ],
     "number": [
       {
         "id": 1,
-        "value": "+380992510396"
+        "value": "+380123456789"
       }
     ]
   },
   {
     "id": 2,
-    "name": "Lesya",
-    "lastName": "Netrybskaya",
-    "address": "center",
-    "city": "Lviv",
-    "country": "Ukraine",
+    "name": "Petro",
+    "lastName": "Petrovych",
+    "address": "lorem ipsum 78",
+    "city": "Nowhere",
+    "country": "Big Country",
     "email": [
       {
       "id": 1,
-      "value": "lesya@gmail.com"
+      "value": "test@gmail.com"
       }
     ],
     "number": [
       {
         "id": 1,
         "value": "+38011111112"
+      },
+      {
+        "id": 2,
+        "value": "+1303333332"
       }
     ]
   },
   {
     "id": 3,
-    "name": "Test",
-    "lastName": "Testovych",
+    "name": "Stepan",
+    "lastName": "Stepanych",
     "address": "center",
     "city": "France",
     "country": "France",
