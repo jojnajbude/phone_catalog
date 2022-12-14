@@ -8,7 +8,6 @@ import { Catalog } from './components/Catalog';
 import { Header } from './components/Header';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { CreateEditContact } from './components/CreateEditContact';
-import { contactApi } from './api/service/contactApi';
 
 function App() {
   return (
@@ -28,7 +27,7 @@ function App() {
           element={<CreateEditContact />}
         />
 
-        <Route path='*' element={<Navigate to='/' />} />
+        <Route path='/*' element={<Navigate to='/' />} />
       </Routes>
     </>
   );
