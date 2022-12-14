@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { contactApi } from '../../api/service/contactApi';
 import { Contact } from '../../types/Contact';
 import { FormField } from '../FormField';
@@ -8,9 +8,7 @@ import { FormFieldArray } from '../FormFieldArray';
 
 import './CreateEditContact.scss';
 
-type Props = {
-  contact?: Contact
-};
+type Props = {};
 
 const formInputs = {
   id: 'Id',
@@ -23,19 +21,27 @@ const formInputs = {
   number: 'Number',
 };
 
-export const CreateEditContact: FC<Props> = ({ contact }) => {
+export const CreateEditContact: FC<Props> = () => {
   const navigator = useNavigate();
+  const { contactId } = useParams();
 
-  const [formContact, setContact] = useState(contact ? contact : {
-    id: 0,
-    name: '',
-    lastName: '',
-    address: '',
-    city: '',
-    country: '',
-    email: [{id: 1, value: ''}],
-    number: [{id: 1, value: ''}],
-  });
+  const contactToEdit = contactId ? contactApi.getContactById(+contactId) : null;
+
+  console.log(contactToEdit);
+
+  const [contact, setContact] = useState(contactToEdit
+    ? contactToEdit
+    : {
+      id: 0,
+      name: '',
+      lastName: '',
+      address: '',
+      city: '',
+      country: '',
+      email: [{id: 1, value: ''}],
+      number: [{id: 1, value: ''}],
+    }
+  );
 
   const setNewField = (field: any, value: any) => {
     setContact(currContact => {
@@ -44,7 +50,7 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
     }
     );
 
-    console.log(formContact);
+    console.log(contact);
   };
 
   const setNewFieldArray = (
@@ -59,7 +65,7 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
         newData.value = newValue;
       }
 
-      console.log(newData);
+      console.log(newData, newValue);
 
       return Object.assign({}, currContact, {});
     });
@@ -80,42 +86,42 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
           name={'name'}
           label={'Name'}
           onChange={setNewField}
-          value={formContact.name}
+          value={contact.name}
         />
 
         <FormField
           name={'lastName'}
           label={'Last Name'}
           onChange={setNewField}
-          value={formContact.lastName}
+          value={contact.lastName}
         />
 
         <FormField
           name={'address'}
           label={'Address'}
           onChange={setNewField}
-          value={formContact.address}
+          value={contact.address}
         />
 
         <FormField
           name={'city'}
           label={'City'}
           onChange={setNewField}
-          value={formContact.city}
+          value={contact.city}
         />
 
         <FormField
           name={'country'}
           label={'Country'}
           onChange={setNewField}
-          value={formContact.country}
+          value={contact.country}
         />
 
         <FormFieldArray
           name={'email'}
           label={'Email'}
           onChange={setNewFieldArray}
-          value={formContact.email}
+          value={contact.email}
           type={'email'}
         />
 
@@ -123,24 +129,41 @@ export const CreateEditContact: FC<Props> = ({ contact }) => {
           name={'number'}
           label={'Number'}
           onChange={setNewFieldArray}
-          value={formContact.number}
+          value={contact.number}
         />
       
-        <button
-          className='button is-info mt-3'
-          style={{ width: 'min-content'}}
-          onClick={(event) => {
-            event.preventDefault();
+        <div className="mt-3">
+          <button
+            className='button is-danger mr-3 px-3'
+            style={{ width: 'min-content'}}
+            onClick={() => {
+              navigator('/');
+            }}
+          > 
+            Cancel
+          </button>
 
-            console.log(formContact);
+          <button
+            className='button is-info px-5'
+            style={{ width: 'min-content'}}
+            type='submit'
+            onClick={(event) => {
+              event.preventDefault();
 
-            contactApi.addContact(formContact);
-            
-            navigator('/');
-          }}
-        > 
-          Save 
-        </button>
+              console.log(contact);
+
+              if (contactToEdit) {
+                contactApi.editContact(contact);
+              } else {
+                contactApi.addContact(contact);
+              }
+              
+              navigator('/');
+            }}
+          > 
+            Save 
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -53,16 +53,17 @@ export const FormFieldArray: FC<Props> = ({
             'mr-2': value.length === 1,
           },
         )}>
-          {value.map((_, i) => (
+          {value.map(({ id }, i) => (
             <input
-              key={i * Math.random()}
+              key={id}
               className='input mb-2'
-              id={String(value[i].id)}
               type={type}
               placeholder={`Enter${isThe ? ' the' : ''} ${label}`}
               value={value[i].value}
               onChange={(event) => {
-                onChange(name, value[i].id ,event.currentTarget.value);
+                console.log('here');
+                onChange(name, value[i].id ,event.target.value);
+                setCount(curr => curr);
               }}
             />
           ))}

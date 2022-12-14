@@ -8,7 +8,7 @@ export const Catalog = () => (
       <div className="catalog__header">
         <h2 className='title is-3'>Contacts</h2>
         <Link
-          to='/create-edit-contact'
+          to='/create-contact'
           className='button is-info'
         >
           Add Contact

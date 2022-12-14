@@ -12,10 +12,14 @@ interface ContactFromForm {
   number: Number[],
 };
 
-let data = require('../data/contacts.json')
+let data: Contact[] = require('../data/contacts.json');
 
 const getContacts = () => {
   return data;
+};
+
+const getContactById = (id: number) => {
+  return data.find(contact => contact.id === id);
 };
 
 const addContact = (contactFromForm: ContactFromForm) => {
@@ -23,16 +27,26 @@ const addContact = (contactFromForm: ContactFromForm) => {
   const newContact = Object.assign({ id: newId }, contactFromForm);
 
   data.push(newContact);
-}
+};
+
+const editContact = (contact: Contact) => {
+  const findedContact = data.find(finded => finded.id === contact.id);
+
+  if (findedContact) {
+    Object.assign(findedContact, contact);
+  }
+};
 
 const deleteContact = (contactId: number) => {
   data = data.filter((contact: Contact) => contact.id !== contactId);
 
   return data;
-}
+};
 
 export const contactApi = {
   getContacts,
+  getContactById,
   addContact,
+  editContact,
   deleteContact,
 };
